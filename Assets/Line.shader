@@ -21,7 +21,7 @@ Shader "Custom/Line" {
 			v2f vert (appdata_base v)
 			{
 			    v2f o;
-			    o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+			    o.pos = UnityObjectToClipPos (v.vertex);
 			    return o;
 			}
 
