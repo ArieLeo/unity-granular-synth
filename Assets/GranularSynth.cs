@@ -1,15 +1,22 @@
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class GranularSynth : MonoBehaviour
 {
     public AudioClip clip;
+
+    [Range(0f, 1f)]
+    public float volume = 1f;
 
     public int playbackSpeed = 1;
     public int grainSize = 1000;
     public int grainStep = 1;
 
+    [Range(-4f, 4f)]
     public float guiPlaybackSpeed = 1f;
+    [Range(2f, 10000f)]
     public float guiGrainSize = 1000f;
+    [Range(-3000f, 3000f)]
     public float guiGrainStep = 1f;
 
     private int sampleLength;
@@ -53,11 +60,8 @@ public class GranularSynth : MonoBehaviour
         }
         GUILayout.FlexibleSpace();
         GUILayout.EndArea();
+
         playbackSpeed = Mathf.RoundToInt(guiPlaybackSpeed);
-        if (playbackSpeed == 0)
-        {
-            playbackSpeed = 1;
-        }
         grainSize = Mathf.RoundToInt(guiGrainSize);
         grainStep = Mathf.RoundToInt(guiGrainStep);
     }
@@ -66,8 +70,8 @@ public class GranularSynth : MonoBehaviour
     {
         for (int i = 0; i < data.Length; i += 2)
         {
-            data[i] = samples[position * 2];
-            data[i + 1] = samples[position * 2 + 1];
+            data[i] = samples[position * 2] * this.volume;
+            data[i + 1] = samples[position * 2 + 1] * this.volume;
 
             if (--interval <= 0)
             {
